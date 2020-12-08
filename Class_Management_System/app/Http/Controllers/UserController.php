@@ -41,7 +41,10 @@
             $user = User::create([
                 'name' => $request->get('name'),
                 'email' => $request->get('email'),
+                'phone_number' => $request->get('phone_number'),
+                'address' => $request->get('address'),
                 'password' => Hash::make($request->get('password')),
+                'role_id' =>$request->get('role_id'),
             ]);
 
             $token = JWTAuth::fromUser($user);

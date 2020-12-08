@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DataController;
+use App\Http\Controllers\RoleController;
 
 
 
@@ -24,18 +25,28 @@ Route::post('register', [UserController::class, 'register']);
     Route::get('open', [DataController::class, 'open']);
 
     Route::group(['middleware' => ['jwt.verify']], function() {
-        Route::get('user', 'UserController@getAuthenticatedUser');
+        Route::get('user', [UserController::class, 'getAuthenticatedUser']);
         Route::get('closed', 'DataController@closed');
+        Route::post('add-student', [UserController::class, 'register']);
+        Route::delete('delete-student/{id}',[TeacherController::class, 'deleteStudent']);
+        Route::put('edit-student/{id}', [TeacherController::class, 'editStudent']);
+        Route::get('all-student', [TeacherController::class, 'allStudent']);
+        Route::get('student-detail/{id}',[TeacherController::class, 'studentDetails']);
+       
     });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::post('add-student', [TeacherController::class, 'addStudent']);
+*/
+Route::post('role',[RoleController::class, 'addRole']);
+//Route::post('add-student', [TeacherController::class, 'addStudent']);
+/*Route::post('add-student', [UserController::class, 'register']);
 Route::delete('delete-student/{id}',[TeacherController::class, 'deleteStudent']);
 Route::put('edit-student/{id}', [TeacherController::class, 'editStudent']);
 Route::get('all-student', [TeacherController::class, 'allStudent']);
 Route::get('student-detail/{id}',[TeacherController::class, 'studentDetails']);
+Route::post('role',[RoleController::class, 'addRole']);
+*/
 
 
